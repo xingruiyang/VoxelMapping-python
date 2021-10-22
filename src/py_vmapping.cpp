@@ -1,5 +1,7 @@
-#include "py_vmapping.h"
 #include <opencv2/opencv.hpp>
+
+#include "py_vmapping.h"
+#include "ndarray_converter.h"
 
 namespace py = pybind11;
 
@@ -40,6 +42,13 @@ void VoxelitPython::loadAndFuseDepth(std::string depth, const Eigen::Matrix4f &p
     voxel_map->FuseDepth(cv::cuda::GpuMat(depthF), pose);
 }
 
+cv::Mat VoxelitPython::getDepthMap(const Eigen::Matrix4f &pose)
+{
+    cv::cuda::GpuMat vmap;
+    voxel_map->RenderScene(vmap, pose);
+    return cv::Mat(vmap);
+}
+
 py::tuple VoxelitPython::getPlygonMesh()
 {
     float *verts, *norms;
@@ -61,11 +70,13 @@ void VoxelitPython::setDepthScale(float scale)
 
 PYBIND11_MODULE(py_vmapping, m)
 {
+    NDArrayConverter::init_numpy();
     py::class_<VoxelitPython>(m, "map")
         .def(py::init<int, int, const Eigen::Matrix3f &>())
         .def("reset", &VoxelitPython::reset)
         .def("create_map", &VoxelitPython::createMap)
         .def("fuse_depth", &VoxelitPython::fuseDepth)
+        .def("get_depth", &VoxelitPython::getDepthMap)
         .def("get_polygon", &VoxelitPython::getPlygonMesh)
         .def("get_surface_points", &VoxelitPython::getSurfacePoints)
         .def("set_depth_scale", &VoxelitPython::setDepthScale)

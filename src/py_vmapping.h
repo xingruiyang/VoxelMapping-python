@@ -20,6 +20,7 @@ public:
     void createMap(int numEntries, int numVoxels, float voxelSize);
     void fuseDepth(cv::Mat depth, const Eigen::Matrix4f &pose);
     void loadAndFuseDepth(std::string depth, const Eigen::Matrix4f &pose);
+    cv::Mat getDepthMap(const Eigen::Matrix4f &pose);
     py::tuple getPlygonMesh();
     std::vector<Eigen::Vector3f> getSurfacePoints();
     void setDepthScale(float scale);
