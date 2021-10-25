@@ -29,7 +29,6 @@ void VoxelitPython::fuseDepth(cv::Mat depth, const Eigen::Matrix4f &pose)
 {
     cv::Mat depthF;
     depth.convertTo(depthF, CV_32FC1, 1 / depth_scale);
-
     voxel_map->FuseDepth(cv::cuda::GpuMat(depthF), pose);
 }
 
@@ -38,7 +37,6 @@ void VoxelitPython::loadAndFuseDepth(std::string depth, const Eigen::Matrix4f &p
     cv::Mat depthF;
     cv::Mat img = cv::imread(depth, -1);
     img.convertTo(depthF, CV_32FC1, 1 / depth_scale);
-
     voxel_map->FuseDepth(cv::cuda::GpuMat(depthF), pose);
 }
 
@@ -46,6 +44,7 @@ cv::Mat VoxelitPython::getDepthMap(const Eigen::Matrix4f &pose)
 {
     cv::cuda::GpuMat vmap;
     voxel_map->RenderScene(vmap, pose);
+    std::cout << vmap.size() << std::endl;
     return cv::Mat(vmap);
 }
 
