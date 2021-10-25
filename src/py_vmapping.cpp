@@ -44,7 +44,6 @@ cv::Mat VoxelitPython::getDepthMap(const Eigen::Matrix4f &pose)
 {
     cv::cuda::GpuMat vmap;
     voxel_map->RenderScene(vmap, pose);
-    std::cout << vmap.size() << std::endl;
     return cv::Mat(vmap);
 }
 
