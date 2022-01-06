@@ -28,7 +28,10 @@ void VoxelitPython::createMap(int numEntries, int numVoxels, float voxelSize)
 void VoxelitPython::fuseDepth(cv::Mat depth, const Eigen::Matrix4f &pose)
 {
     cv::Mat depthF;
-    depth.convertTo(depthF, CV_32FC1, 1 / depth_scale);
+    if (depth_scale > 0)
+        depth.convertTo(depthF, CV_32FC1, 1 / depth_scale);
+    else
+        depthF = depth;
     voxel_map->FuseDepth(cv::cuda::GpuMat(depthF), pose);
 }
 
