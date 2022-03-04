@@ -7,7 +7,6 @@ endif()
 
 find_package(OpenCV REQUIRED)
 find_package(Eigen3 REQUIRED)
-find_package(Sophus REQUIRED)
 find_package(Python COMPONENTS Interpreter Development NumPy)
 
 add_subdirectory(pybind11)
@@ -25,7 +24,6 @@ pybind11_add_module(py_vmapping
 target_include_directories(${PROJECT_NAME}
 PUBLIC
     ${CUDA_INCLUDE_DIRS}
-    ${Sophus_INCLUDE_DIRS}
     ${Python3_NumPy_INCLUDE_DIRS}
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/voxelization/src>
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/voxelization/include/>)
@@ -46,5 +44,4 @@ target_link_libraries(${PROJECT_NAME}
 PRIVATE
     Eigen3::Eigen
     Python::NumPy
-    Sophus::Sophus
     ${OpenCV_LIBS})

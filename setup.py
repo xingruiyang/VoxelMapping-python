@@ -84,7 +84,7 @@ class CMakeBuild(build_ext):
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
     name="py_vmapping",
-    version="0.2.0",
+    version="0.3.0",
     author="Yang Xingrui",
     description="Python bindings for vmapping",
     long_description="",
